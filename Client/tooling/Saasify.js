@@ -41,7 +41,7 @@ var sassify = function(){
 			catch(e){}
 			
 		}
-		fs.writeFileSync(dev ? `${__dirname}/../../css/fv.css` : `${__dirname}/../../css/fv.css`, css);
+		fs.writeFileSync(dev ? `${__dirname}/../css/fv.css` : `${__dirname}/../../css/fv.css`, css);
 	});
 };
 

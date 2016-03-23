@@ -28,7 +28,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../../index.html'),
-      inject: 'body' // Inject webpack scripts into the body.
+      inject: false // Inject webpack scripts into the body.
     }),
     new Saasify(module.exports)
   ]

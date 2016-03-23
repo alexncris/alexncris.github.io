@@ -1,1 +1,11 @@
 @import "variables";
+
+html,
+body {
+  height: 100%;
+}
+
+#main {
+  min-height: 100%;
+  position: relative;
+}
