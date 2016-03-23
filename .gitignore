@@ -1,7 +1,3 @@
 node_modules/
 
 *.log
-
-Client/npm-debug.log
-
-Client/npm-debug.log
