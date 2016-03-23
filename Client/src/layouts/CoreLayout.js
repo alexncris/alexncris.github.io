@@ -21,6 +21,8 @@ export default class CoreLayout extends React.Component {
 			<span style={{marginRight: '10px'}}>ToDo</span>
 			<span style={{marginRight: '10px'}}>IOUs</span>
 			<span style={{marginRight: '10px'}}>Suggested Weekly Menus</span>
+			<span style={{marginRight: '10px'}}>Wishlist</span>
+
 		</div>)
 	}
 }

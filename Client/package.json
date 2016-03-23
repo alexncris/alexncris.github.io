@@ -8,7 +8,7 @@
     "test": "karma start ./tooling/karma.config.js --no-single-run --auto-watch",
     "single-test-run": "karma start ./tooling/karma.config.js",
     "test-debug": "karma start ./tooling/karma.config.js --no-single-run --browsers Chrome",
-    "build-production": "NODE_ENV=production webpack -p --config tooling/webpack.config.js"
+    "build": "NODE_ENV=production webpack -p --config tooling/webpack.config.js"
   },
   "author": "Alex",
   "license": "",
