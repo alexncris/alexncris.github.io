@@ -9,3 +9,66 @@ body {
   min-height: 100%;
   position: relative;
 }
+
+.centre {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.whoAreYou {
+	width: 200px;
+    margin-top: 10%;
+}
+
+.chooseCris {
+   background-image: $choose-cris-image;
+   background-repeat: no-repeat;
+  background-size: 100%;
+  width: 150px;
+  height: 300px;
+  opacity: 0.7;
+}
+
+.chooseAlex {
+   background-image: $choose-alex-image;
+   background-repeat: no-repeat;
+  background-size: 100%;
+  width: 150px;
+  height: 300px;
+    opacity: 0.7;
+
+}
+
+.choosePerson {
+	height: 300px;
+    width: 300px;
+    display: flex;
+}
+
+.chooseCris:hover {
+	opacity: 1;
+}
+
+.chooseAlex:hover {
+	opacity: 1;
+}
+
+.footer {
+  background-color: $green-color;
+  position: absolute;
+  bottom: 0;
+  height: 25px;
+  padding-left: 60px;
+  padding-top: 5px;
+  padding-bottom: 25px;
+  width: 100%;
+  text-align: center;
+}
+
+.viewContainer {
+	margin-left:20px;
+}
