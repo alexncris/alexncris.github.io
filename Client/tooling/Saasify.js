@@ -36,12 +36,12 @@ var sassify = function(){
 		css = new CleanCSS().minify(css).styles;
 		if (!dev){
 			try{
-				fs.mkdirSync(`${__dirname}/../build/public/css`);
+				fs.mkdirSync(`${__dirname}/css`);
 			}
 			catch(e){}
 			
 		}
-		fs.writeFileSync(dev ? `${__dirname}/../css/fv.css` : `${__dirname}/../css/fv.css`, css);
+		fs.writeFileSync(dev ? `${__dirname}/css/fv.css` : `${__dirname}/css/fv.css`, css);
 	});
 };
 
