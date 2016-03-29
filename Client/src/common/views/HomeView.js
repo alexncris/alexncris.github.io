@@ -26,6 +26,8 @@ export default class HomeView extends React.Component {
 				<div onClick={this._choosePerson('alex')} className ='chooseAlex'/>
 				<div onClick={this._choosePerson('cris')} className ='chooseCris'/>
 			</div>
+			<br/>
+			<Input placeholder='Password' type='password'/><Button bsStyle='success'>Continue</Button>
 		</div>)
 	}
 }

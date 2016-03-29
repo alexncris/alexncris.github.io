@@ -24,12 +24,15 @@ export default class Wishlist extends React.Component {
 				<Button style={{marginLeft:'15px'}} bsStyle='success'>Add Item</Button>
 			</div>
 			<Table striped bordered hover style={{marginTop:'20px', width:'50%'}}>
-			<thead>
-		      <tr>
-		        <th>Name</th>
-		        <th>Link</th>
-		      </tr>
-		    </thead>
+				<thead>
+			      <tr>
+			        <th>Name</th>
+			        <th>Link</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			    	<tr><td colSpan='2'>Nothing on the wishlist to show</td></tr> 
+			    </tbody>
 			</Table>
 		</div>)
 	}
