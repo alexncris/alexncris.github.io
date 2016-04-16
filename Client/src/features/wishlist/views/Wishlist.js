@@ -2,39 +2,108 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Button, Input, Table} from 'react-bootstrap';
+import getWishlistActions from '../actions/getWishlist';
+import addWishlistItemActions from '../actions/addWishlistItem';
 
 const mapStateToProps = (state) => ({
-
+	getWishlist: state.getWishlist,
+	addWishlistItem: state.addWishlistItem
 });
 
 const mapDispatchToProps = dispatch => ({
-		actions: {}
+	actions : bindActionCreators(Object.assign({}, getWishlistActions,
+			  addWishlistItemActions), dispatch)
 });
 
-export default class Wishlist extends React.Component {
-	_addWishlistItem() {
-
+class WishlistRow extends React.Component {
+	_goToUrl(url) {
+		return e => {
+			window.location = url.indexOf('http://') > -1 ? url : `http://${url}`;
+		}
 	}
 
+	render () {
+		var item = this.props.wishlistItem;
+		var tableSplit = item.split; 
+		var tableSplitStyle = tableSplit ? {borderTop: '2px solid darkgrey'} : {}; 
+ 		return (
+			<tr key={this.props.index}>	
+				<td style={tableSplitStyle}className={tableSplit ? 'tableSplit' : ''}>{item.name}</td>
+				<td style={tableSplitStyle}><a className='link' onClick={this._goToUrl(item.url)}>{item.url}</a></td>
+				<td style={tableSplitStyle}>{`£${item.cost.toFixed(2)}`}</td>
+				<td style={tableSplitStyle}>
+					<div style={{whiteSpace: 'nowrap'}}>
+						<span className={item.priority ? 'fav-icon' : 'fav-empty-icon'}/>
+						<span onClick={this.props.completeWishlistItemAction(item.id)} style={{marginLeft: '10px'}} className='completed-icon'/>
+					</div>
+				</td>
+
+			</tr>
+		);
+	}
+}
+
+WishlistRow.propTypes = {
+	wishlistItem: React.PropTypes.object,
+	index: React.PropTypes.string
+}
+
+export default class Wishlist extends React.Component {
+	_changePriority(e, priority) {
+		return e => {
+			this.props.actions.changePriority(priority);
+		}
+	}
+
+	_completeWishlistItem(id) {
+		return e => {
+			this.props.actions.completeWishlistItem(id);
+		}
+	}
+	
 	render() {
+		var getWishlistProps = this.props.getWishlist;
+		var addWishlistItemProps = this.props.addWishlistItem;
+		var ready = addWishlistItemProps.name && addWishlistItemProps.isValidUrl &&
+					addWishlistItemProps.isValidCost;
 		return (
 		<div>
-			<div style={{marginTop:'20px', display:'flex'}}>
-				<input style={{width:'30%'}} type="text" className="form-control" placeholder='Name'/><input style={{width:'30%', marginLeft:'15px'}} className='form-control' placeholder='Link'/>
-				<Button style={{marginLeft:'15px'}} bsStyle='success'>Add Item</Button>
+			<div style={{marginTop:'20px', display:'flex', width: '80%'}}>
+				<input onChange={this.props.actions.changeName} style={{width:'60%'}} type="text" className="form-control" placeholder='Name' value={addWishlistItemProps.name}/>
+				<input onChange={this.props.actions.changeUrl} style={{width:'80%', marginLeft:'15px'}} className='form-control' value={addWishlistItemProps.url} placeholder='Link'/>
+				<label className='pound'>£</label>
+				<input onChange={this.props.actions.changeCost} style={{width:'25%', marginLeft:'5px'}} className='form-control' value={addWishlistItemProps.cost} placeholder='Cost'/>
+
+				<div onClick={this._changePriority(this, addWishlistItemProps.priority ? false : true)}>
+					<span style={{marginLeft:'15px', marginRight:'10px', marginTop: '8px'}}>Priority?</span>
+					<input style={{marginTop: '12px'}} defaultChecked={addWishlistItemProps.priority} type='checkbox'/>
+				</div>
+				<Button disabled={!ready} onClick={this.props.actions.addWishlistItem} style={{marginLeft:'30px'}} bsStyle='success'>Add Item</Button>
 			</div>
-			<Table striped bordered hover style={{marginTop:'20px', width:'50%'}}>
+			<br/>
+			<Table striped bordered hover style={{marginTop:'20px', width:'900%'}}>
 				<thead>
 			      <tr>
-			        <th>Name</th>
-			        <th>Link</th>
+			        <th style={{width: '30%'}}>Name</th>
+			        <th style={{width: '30%'}}>Link</th>
+			        <th style={{width: '30%'}}>Cost</th>
+			        <th></th>
 			      </tr>
 			    </thead>
-			    <tbody>
-			    	<tr><td colSpan='2'>Nothing on the wishlist to show</td></tr> 
-			    </tbody>
+			    <tbody className={getWishlistProps.isGettingWishlist || getWishlistProps.isCompletingWishlistItem ? 'collapsed':''}>
+						{getWishlistProps.displayList.map((value, index) => 
+							<WishlistRow wishlistItem={value} 
+										 key={index}
+										 completeWishlistItemAction={this._completeWishlistItem.bind(this)}/>
+						)}
+						{getWishlistProps.wishlist.length === 0 && !getWishlistProps.isGettingWishlist ? <tr><td colSpan='4'>Nothing on the wishlist to show</td></tr> : false}
+				</tbody>
 			</Table>
 		</div>)
+	}
+
+	componentWillMount() {
+		this.props.actions.getWishlist();
 	}
 }
 

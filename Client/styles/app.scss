@@ -1,4 +1,6 @@
 @import "variables";
+@import "fonts";
+@import "icons";
 
 html,
 body {
@@ -21,12 +23,12 @@ body {
 
 .whoAreYou {
 	width: 200px;
-    margin-top: 10%;
+  margin-top: 10%;
 }
 
 .chooseCris {
-   background-image: $choose-cris-image;
-   background-repeat: no-repeat;
+  background-image: $choose-cris-image;
+  background-repeat: no-repeat;
   background-size: 100%;
   width: 150px;
   height: 300px;
@@ -34,27 +36,35 @@ body {
 }
 
 .chooseAlex {
-   background-image: $choose-alex-image;
-   background-repeat: no-repeat;
+  background-image: $choose-alex-image;
+  background-repeat: no-repeat;
   background-size: 100%;
   width: 150px;
   height: 300px;
-    opacity: 0.7;
+  opacity: 0.7;
 
 }
 
-.choosePerson {
+.chooseUser {
 	height: 300px;
-    width: 300px;
-    display: flex;
+  width: 300px;
 }
 
 .chooseCris:hover {
 	opacity: 1;
 }
 
+.continueBtn {
+  height: 34px;
+  margin-left: 10px;
+}
+
 .chooseAlex:hover {
 	opacity: 1;
+}
+
+.flex {
+  display: flex;
 }
 
 .footer {
@@ -68,7 +78,46 @@ body {
   text-align: center;
 }
 
+.link {
+  cursor: pointer;
+}
+
+.logout {
+  margin-left: 10px;
+  margin-top: 15px;
+  height: 80%;
+}
+
+.pound {
+    margin-left: 20px;
+    margin-top: 6px;
+}
+
+.nav {
+  position: absolute;
+  margin-top: 15px;
+  width: 100%;
+  float: left;
+}
+
+.tableSplit {
+  border-top: 2px solid blue;
+}
+
+.user {
+  z-index: 1;
+  position: relative;
+  float: right;
+  margin-right: 20px;
+}
+
+.username {
+  margin-top: 16px;
+}
+
 .viewContainer {
-  margin-top:30px;
 	margin-left:20px;
+  margin-top: 75px;
+  position: absolute;
+  width: 75%;
 }

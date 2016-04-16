@@ -1,0 +1,21 @@
+@import "variables";
+
+.completed-icon {
+ @extend .glyphicon;
+ @extend .glyphicon-ok-circle;
+ color:  green;
+ cursor: pointer;
+}
+
+.fav-icon {
+ @extend .glyphicon;
+ @extend .glyphicon-star;
+ color:  $yellow-color;
+ font-size: 15px;
+}
+
+.fav-empty-icon {
+ @extend .glyphicon;
+ @extend .glyphicon-star-empty;
+ font-size: 15px;
+}

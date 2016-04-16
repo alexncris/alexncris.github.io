@@ -1,3 +1,4 @@
 $green-color: rgba(100, 165, 0, 0.38);
+$yellow-color: rgb(222, 188, 0);
 $choose-alex-image: url('../media/choosealex.jpeg');
 $choose-cris-image: url('../media/choosecris.jpeg');
