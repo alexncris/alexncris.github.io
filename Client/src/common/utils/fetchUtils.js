@@ -15,7 +15,7 @@ export function constructRequest(state, urlPath, method, body){
       opts.body = JSON.stringify(body);
       opts.headers['content-type'] = 'application/json'
   }
-  return new Request(`http://localhost:3000/${urlPath}`, opts);
+  return new Request(`http://crale.ddns.net:3000/${urlPath}`, opts);
 }
 
 export function checkStatus (response) {

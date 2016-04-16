@@ -44,7 +44,7 @@ function _login() {
 		var state = getState();
 		var authState = state.auth;
 		
-		var req = new Request('http://localhost:3000/login', {
+		var req = new Request('http://crale.ddns.net:3000/login', {
 				method: 'POST',
 				body: JSON.stringify({
 					 username: authState.user,
