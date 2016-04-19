@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => ({
 class WishlistRow extends React.Component {
 	_goToUrl(url) {
 		return e => {
-			window.location = url.indexOf('http://') > -1 ? url : `http://${url}`;
+			window.open(url.indexOf('http://') > -1 ? url : `http://${url}`, '_blank');
 		}
 	}
 
@@ -66,6 +66,12 @@ export default class Wishlist extends React.Component {
 		var addWishlistItemProps = this.props.addWishlistItem;
 		var ready = addWishlistItemProps.name && addWishlistItemProps.isValidUrl &&
 					addWishlistItemProps.isValidCost;
+		
+		var totalCost = 0;
+		getWishlistProps.displayList.map(item => {
+			totalCost += parseFloat(item.cost);
+		})
+
 		return (
 		<div>
 			<div style={{marginTop:'20px', display:'flex', width: '80%'}}>
@@ -96,6 +102,12 @@ export default class Wishlist extends React.Component {
 										 key={index}
 										 completeWishlistItemAction={this._completeWishlistItem.bind(this)}/>
 						)}
+						<tr>
+							<td/>
+							<td/>
+							<td><b>{`£${totalCost}`}</b></td>
+							<td/>
+						</tr>
 						{getWishlistProps.wishlist.length === 0 && !getWishlistProps.isGettingWishlist ? <tr><td colSpan='4'>Nothing on the wishlist to show</td></tr> : false}
 				</tbody>
 			</Table>
