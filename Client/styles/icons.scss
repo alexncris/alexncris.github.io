@@ -19,3 +19,28 @@
  @extend .glyphicon-star-empty;
  font-size: 15px;
 }
+
+.home-icon {
+ @extend .glyphicon;
+ @extend .glyphicon-home;
+ font-size: 25px;
+ cursor: pointer;
+}
+
+.list-icon {
+ @extend .glyphicon;
+ @extend .glyphicon-list-alt;
+ font-size: 25px;
+ cursor: pointer;
+}
+
+.calendar-icon {
+ @extend .glyphicon;
+ @extend .glyphicon-calendar;
+ font-size: 25px;
+ cursor: pointer;
+}
+
+.active-icon {
+	color: rgba(100,165,0,.38);
+}

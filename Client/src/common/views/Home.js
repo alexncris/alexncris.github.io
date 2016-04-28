@@ -61,7 +61,7 @@ export default class Home extends React.Component {
 				</tbody>
 			</Table>
 	    </Panel>
-		<Panel header="Notifications">
+		<Panel header='Notifications'>
 	    </Panel>
 		</div>)
 	}

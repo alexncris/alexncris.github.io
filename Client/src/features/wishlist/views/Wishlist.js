@@ -102,13 +102,13 @@ export default class Wishlist extends React.Component {
 										 key={index}
 										 completeWishlistItemAction={this._completeWishlistItem.bind(this)}/>
 						)}
+						{getWishlistProps.wishlist.length === 0 && !getWishlistProps.isGettingWishlist ? <tr><td colSpan='4'>Nothing on the wishlist to show</td></tr> : false}
 						<tr>
 							<td/>
 							<td/>
 							<td><b>{`£${totalCost}`}</b></td>
 							<td/>
 						</tr>
-						{getWishlistProps.wishlist.length === 0 && !getWishlistProps.isGettingWishlist ? <tr><td colSpan='4'>Nothing on the wishlist to show</td></tr> : false}
 				</tbody>
 			</Table>
 		</div>)

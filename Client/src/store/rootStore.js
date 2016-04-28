@@ -1,7 +1,7 @@
 import rootReducer          from '../common/utils/reducers';
 import {reduxReactRouter}   from 'redux-router';
 import routes               from '../routes';
-import createHistory        from 'history/lib/createBrowserHistory';
+import createHashHistory        from 'history/lib/createHashHistory';
 import thunk                from 'redux-thunk';
 
 import {
@@ -9,6 +9,13 @@ import {
   compose,
   createStore
 } from 'redux';
+
+function useNoQueryKey(createHistory) {
+  return function(options={}) {
+    options.queryKey = false;
+    return createHistory(options);
+  };
+}
 
 export default function configureStore(initialState) {
   let createStoreWithMiddleware;
@@ -18,7 +25,7 @@ export default function configureStore(initialState) {
   	middleware,
     reduxReactRouter({
       routes, 
-      createHistory
+      createHistory: useNoQueryKey(createHashHistory)
     })
    );
 

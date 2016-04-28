@@ -12,6 +12,12 @@ body {
   position: relative;
 }
 
+.calendar {
+  height: 500px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
 .centre {
   position: absolute;
   margin: auto;
@@ -69,7 +75,6 @@ body {
 
 .footer {
   background-color: $green-color;
-  position: absolute;
   bottom: 0;
   height: 25px;
   padding-top: 5px;
@@ -84,7 +89,6 @@ body {
 
 .logout {
   margin-left: 10px;
-  margin-top: 15px;
   height: 80%;
 }
 
@@ -93,11 +97,10 @@ body {
     margin-top: 6px;
 }
 
-.nav {
-  position: absolute;
+.navbar {
   margin-top: 15px;
-  width: 100%;
-  float: left;
+  margin-left:20px;
+  margin-bottom: 0px;
 }
 
 .tableSplit {
@@ -112,12 +115,11 @@ body {
 }
 
 .username {
-  margin-top: 16px;
+  margin-top: 2px;
 }
 
 .viewContainer {
 	margin-left:20px;
-  margin-top: 75px;
-  position: absolute;
+  position: relative;
   width: 75%;
 }

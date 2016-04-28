@@ -22,6 +22,12 @@ export default class CoreLayout extends React.Component {
 		}
 	}
 
+	_goToUrl(url) {
+		return e => {
+			this.props.history.pushState(null, url);
+		}
+	}
+
 	render() {
 		var authState = this.props.auth;
 		var isLoggedIn = authState.isLoggedIn;
@@ -34,16 +40,15 @@ export default class CoreLayout extends React.Component {
 						<h3 className='username'>{this._capitalise(authState.user)}</h3>
 						<Button className='logout' bsStyle='primary' onClick={this._logout()}>Logout</Button>
 					</div>
-					<Nav className='nav'/>
+					<Nav urlAction={this._goToUrl.bind(this)}/>
 				</div>
 				<div className='viewContainer'>
-				{this.props.children ? this.props.children : <HomeView/>}
+					{this.props.children ? this.props.children : <HomeView/>}
 				</div>
 			</div>
 			: 
 			<LoginView/>}
-
-			<footer className='footer'>A gUrR Creation - v0.01 - 2016</footer>
+			<footer className='footer'>A gUrR Creation - v0.17</footer>
 		</div>)
 	}
 }
