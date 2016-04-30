@@ -4,30 +4,30 @@ import ERRORS from '../../../common/constants/errors';
 import CALENDAR from '../constants/calendar';
 import {valueFromEvent} from '../../../common/utils';
 
-function _changeEventName(name) {
+function _changeEventName(e) {
 	return {
-		type: CALENDAR.CHANGE_NAME,
-		payload: name
+		type: CALENDAR.CHANGE_EVENT_NAME,
+		payload: valueFromEvent(e)
 	};
 }
 
-function _changeEventDate(date) {
+function _changeEventDate(dates) {
 	return {
-		type: CALENDAR.CHANGE_DATE,
-		payload: date
+		type: CALENDAR.CHANGE_EVENT_DATE,
+		payload: dates
 	};
 }
 
-function _changeEventDescription(description) {
+function _changeEventDescription(e) {
 	return {
-		type: CALENDAR.CHANGE_DESC,
-		payload: description
+		type: CALENDAR.CHANGE_EVENT_DESCRIPTION,
+		payload: valueFromEvent(e)
 	};
 }
 
 function _addingCalendarEvent() {
 	return {
-		type: CALENDAR.ADDING_CALENDAR_EVENT
+		type: CALENDAR.ADDING_EVENT
 	};
 }
 
@@ -44,19 +44,25 @@ function _addCalendarEventSuccess() {
 	};
 }
 
+function _clearModalState() {
+	return {
+		type: CALENDAR.CLEAR_MODAL_STATE
+	}
+}
+
 function _addCalendarEvent() {
 	return (dispatch, getState) => {
 		var state = getState();
-		var calendarState = state.calendarState;
+		var calendarState = state.calendar;
 
-		if (!calendarState.name || !calendarState.date || !calendarState.time || !calendarState.description) {
+		if (!calendarState.name || !calendarState.startDate || !calendarState.endDate) {
 			return dispatch(_addCalendarEventFailure(ERRORS.NO_EMPTY_FIELDS));
 		}
-
 		var obj = {
 			name: calendarState.name,
-			date: calendarState.date,
-			description: calendarState.desc
+			startDate: calendarState.startDate.date,
+			endDate: calendarState.endDate.date,
+			description: calendarState.description
 		};
 
 		var req = constructRequest(state, 'calendar', POST, obj);
@@ -70,7 +76,6 @@ function _addCalendarEvent() {
 	       .then(() => {
 	      	  success = true;
 	      	  dispatch(_addCalendarEventSuccess());
-	      	  dispatch(getWishlistActions.getWishlist());
 	        })
 	       .catch(error => error.response ?
 	      		 (error.response.status === 400 ?  ERRORS.BAD_REQUEST : error.response.text()) 
@@ -84,5 +89,6 @@ export default {
   addCalendarEvent: _addCalendarEvent,
   changeEventName: _changeEventName,
   changeEventDate: _changeEventDate,
-  changeEventDescription: _changeEventDescription
+  changeEventDescription: _changeEventDescription,
+  clearModalState: _clearModalState
 };

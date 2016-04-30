@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 import {Nav} from '../common/components/Nav'; 
 import LoginView from '../common/views/Login';
 import HomeView from '../common/views/Home';
-import {Button} from 'react-bootstrap';
 
 const mapStateToProps = state => ({
   auth:state.auth
@@ -35,10 +34,10 @@ export default class CoreLayout extends React.Component {
 		<div>
 			{isLoggedIn ? 
 			<div>
-				<div>
+				<div className='header'>
 					<div className='flex user'>
-						<h3 className='username'>{this._capitalise(authState.user)}</h3>
-						<Button className='logout' bsStyle='primary' onClick={this._logout()}>Logout</Button>
+						<h4 className='username'>{this._capitalise(authState.user)}</h4>
+						<span className='logout-icon logout' onClick={this._logout()}/>
 					</div>
 					<Nav urlAction={this._goToUrl.bind(this)}/>
 				</div>
@@ -48,7 +47,6 @@ export default class CoreLayout extends React.Component {
 			</div>
 			: 
 			<LoginView/>}
-			<footer className='footer'>A gUrR Creation - v0.17</footer>
 		</div>)
 	}
 }

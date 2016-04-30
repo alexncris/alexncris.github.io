@@ -35,6 +35,7 @@ class WishlistRow extends React.Component {
 					<div style={{whiteSpace: 'nowrap'}}>
 						<span className={item.priority ? 'fav-icon' : 'fav-empty-icon'}/>
 						<span onClick={this.props.completeWishlistItemAction(item.id)} style={{marginLeft: '10px'}} className='completed-icon'/>
+						<span className='pencil-icon' style={{marginLeft: '12px'}}/>
 					</div>
 				</td>
 

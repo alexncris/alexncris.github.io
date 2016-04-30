@@ -7,6 +7,12 @@
  cursor: pointer;
 }
 
+.pencil-icon {
+ @extend .glyphicon;
+ @extend .glyphicon-pencil;
+ font-size: 13px;
+}
+
 .fav-icon {
  @extend .glyphicon;
  @extend .glyphicon-star;
@@ -20,27 +26,56 @@
  font-size: 15px;
 }
 
+.logout-icon {
+ @extend .glyphicon;
+ @extend .glyphicon-log-out;
+ font-size: 20px;
+ cursor: pointer;
+ color: dimgray;
+}
+
+.logout-icon:hover {
+	color:black;
+}
+
 .home-icon {
  @extend .glyphicon;
  @extend .glyphicon-home;
- font-size: 25px;
+ font-size: 20px;
  cursor: pointer;
+ color: dimgray;
+
+}
+
+.home-icon:hover {
+	color:black;
 }
 
 .list-icon {
  @extend .glyphicon;
  @extend .glyphicon-list-alt;
- font-size: 25px;
+ font-size: 20px;
  cursor: pointer;
+ color: dimgray;
 }
+
+.list-icon:hover {
+	color:black;
+}
+
 
 .calendar-icon {
  @extend .glyphicon;
  @extend .glyphicon-calendar;
- font-size: 25px;
+ font-size: 20px;
  cursor: pointer;
+ color: dimgray;
+}
+
+.calendar-icon:hover {
+	color:black;
 }
 
 .active-icon {
-	color: rgba(100,165,0,.38);
+	color: black;
 }

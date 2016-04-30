@@ -8,8 +8,8 @@ body {
 }
 
 #main {
-  min-height: 100%;
-  position: relative;
+  height: 100%;
+  background: lightblue;
 }
 
 .calendar {
@@ -69,18 +69,21 @@ body {
 	opacity: 1;
 }
 
+.eventTextArea {
+  resize: vertical;
+}
+
 .flex {
   display: flex;
 }
 
-.footer {
-  background-color: $green-color;
-  bottom: 0;
-  height: 25px;
-  padding-top: 5px;
-  padding-bottom: 25px;
-  width: 100%;
-  text-align: center;
+.header {
+  /* background: #EAF4FF; */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 45px;
+  margin-left:5%;
+  margin-right:5%;
 }
 
 .link {
@@ -89,7 +92,6 @@ body {
 
 .logout {
   margin-left: 10px;
-  height: 80%;
 }
 
 .pound {
@@ -98,9 +100,14 @@ body {
 }
 
 .navbar {
-  margin-top: 15px;
   margin-left:20px;
   margin-bottom: 0px;
+}
+
+.subheading {
+  font-size: 13px;
+  margin-left: 10px;
+  font-style: italic;
 }
 
 .tableSplit {
@@ -116,10 +123,18 @@ body {
 
 .username {
   margin-top: 2px;
+  color: black;
 }
 
 .viewContainer {
-	margin-left:20px;
+  margin-left: 5%;
+  margin-right: 5%;
   position: relative;
-  width: 75%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background: white;
+  padding: 20px;
+  border: 2px solid black;
+  border-bottom: 0;
+  height: calc(100vh - 45px);
 }
