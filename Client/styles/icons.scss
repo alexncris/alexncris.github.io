@@ -11,6 +11,18 @@
  @extend .glyphicon;
  @extend .glyphicon-pencil;
  font-size: 13px;
+ cursor: pointer;
+}
+
+.delete-icon {
+ @extend .glyphicon;
+ @extend .glyphicon-trash;
+ font-size: 13px;
+ cursor: pointer;
+}
+
+.delete-icon:hover {
+ color: red;
 }
 
 .fav-icon {

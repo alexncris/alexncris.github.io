@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Button, Input, Table, Panel, FormGroup, FormControl, ControlLabel, Modal} from 'react-bootstrap';
+import {Button, Input, Table, Panel, FormGroup, FormControl, ControlLabel, Modal, Checkbox} from 'react-bootstrap';
 import calendarActions from '../actions/calendar';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
@@ -58,36 +58,48 @@ export default class Calendar extends React.Component {
 		}
 	}
 
+	_deleteEvent() {
+		return e => {
+			this.props.actions.deleteCalendarEvent();
+			this.setState({
+				showModal: false
+			});
+		}
+	}
+
 	render() {
 		var calendarProps = this.props.calendar;
 		var addEventReady = calendarProps.startDate && calendarProps.endDate && calendarProps.name;
-
+		var events = calendarProps.events;	
+	
 		return <div>
 			<div className='calendar'>
 				<BigCalendar
+				  popup
 				  selectable
-			      events={[]}
-			      startAccessor='startDate'
-			      endAccessor='endDate'
-			      onSelectEvent={(event => console.log(event))}
-		          onSelectSlot=
-					          {(slotInfo => {
-					          	this.props.actions.changeEventDate(slotInfo);
-					          	this._openModal('add');
-					          })}
+			      events={events}
+			      onSelectEvent={(event => {
+			      					this.props.actions.setEvent(event);
+			      					this._openModal('view');
+			      				})}
+		          onSelectSlot={(slotInfo => {
+					          		this.props.actions.changeEventDate(slotInfo);
+					          		this._openModal('add');
+					          	})}
 			    />
 			  	<br/>
+			  	<span className='error'>{calendarProps.error}</span>
 			  	<br/>
 			</div>
 			
 			<Modal style={{height: 'fixed'}} show={this.state.showModal} onHide={this._closeModal()}>
 				      <Modal.Header closeButton bsStyle='success'>
 					      <Modal.Title>
-					      	{<div><span>{`${this.state.modalType === 'add' ? 'Add a New Event' : 'Event'}`}</span><span className='subheading'>{this.state.wizardStage === 1 ? 'When\'s the event happening' : 'Describe the event'}</span></div>}
+					      	{<div className='flex'><span>{`${this.state.modalType === 'add' ? 'Add a New Event' : calendarProps.name}`}</span>{this.state.modalType !== 'add' ? <div style={{marginTop: '5px'}} className='flex'><span style={{marginLeft: '20px'}} className='pencil-icon'/><span style={{marginLeft: '10px'}} onClick={this._deleteEvent()} className='delete-icon'/></div> : false}<span style={{marginTop: '6px'}} className='subheading'>{this.state.wizardStage === 1 && this.state.modalType === 'add' ? 'When\'s the event happening' : this.state.wizardStage === 2 && this.state.modalType === 'add' ? 'Describe the event' : ''}</span></div>}
 					      </Modal.Title>
 				      </Modal.Header>
 
-				      <Modal.Body style={{height:'200px'}}>
+				      <Modal.Body>
 				      	{this.state.modalType === 'add' ? 
 				      		this.state.wizardStage === 1 ? 
 						      	<form>
@@ -100,6 +112,10 @@ export default class Calendar extends React.Component {
 								      <ControlLabel>End Date/Time</ControlLabel>
 								      <FormControl type="text" disabled={true} value={calendarProps.endDate.displayDate}/>
 								    </FormGroup>
+								    <br/>
+								    <Checkbox checked={calendarProps.startDate.date === calendarProps.endDate.date} disabled={true} readOnly>
+								      All Day
+								    </Checkbox>
 								</form>
 							:
 								<form>
@@ -112,7 +128,35 @@ export default class Calendar extends React.Component {
 								      <FormControl componentClass="textarea" onChange={this.props.actions.changeEventDescription} value={calendarProps.description}/>
 								    </FormGroup>
 								</form>
-						: false}
+						: 
+
+							<form>
+								    <FormGroup className='formControlsText'>
+								      <ControlLabel>Description</ControlLabel>
+								      <br/>
+  								      <span>{calendarProps.description ? calendarProps.description : 'None'}</span>
+								    </FormGroup>
+								    {calendarProps.startDate.date === calendarProps.endDate.date ? 
+								    	<FormGroup className='formControlsText'>
+								    		<br/>
+								      		<ControlLabel>All Day</ControlLabel>
+								    	</FormGroup>
+								    :
+								    	<div>
+									    	<FormGroup className='formControlsText'>
+									    		<ControlLabel>Start Date/Time</ControlLabel>
+									    		<br/>
+									    		<span>{calendarProps.startDate.displayDate}</span>
+									    	</FormGroup>
+									    	<FormGroup className='formControlsText'>
+									    		<ControlLabel>End Date/Time</ControlLabel>
+									    		<br/>
+									    		<span>{calendarProps.endDate.displayDate}</span>
+									    	</FormGroup>
+								    	</div>
+								    }
+								</form>
+						}
 				      </Modal.Body>
 
 				      <Modal.Footer>
@@ -136,6 +180,7 @@ export default class Calendar extends React.Component {
 	}
 
 	componentWillMount() {
+		this.props.actions.getCalendarEvents();
 	}
 }
 

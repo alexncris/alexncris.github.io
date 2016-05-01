@@ -1,4 +1,4 @@
-import {checkCreated, constructRequest, POST} from '../../../common/utils/fetchUtils';
+import {checkCreated, checkOk, checkStatus, parseBody, constructRequest, POST, DELETE} from '../../../common/utils/fetchUtils';
 import fetch from 'isomorphic-fetch';
 import ERRORS from '../../../common/constants/errors';
 import CALENDAR from '../constants/calendar';
@@ -25,9 +25,55 @@ function _changeEventDescription(e) {
 	};
 }
 
+function _setEvent(event) {
+	return {
+		type: CALENDAR.SET_EVENT,
+		payload: event
+	}
+}
+
 function _addingCalendarEvent() {
 	return {
 		type: CALENDAR.ADDING_EVENT
+	};
+}
+
+function _gettingCalendarEvents() {
+	return {
+		type: CALENDAR.GETTING_EVENTS
+	};
+}
+
+function _deletingEvent() {
+	return {
+		type: CALENDAR.DELETING_EVENT
+	};
+}
+
+function _deleteEventSuccess() {
+	return {
+		type: CALENDAR.DELETE_EVENT_SUCCESS
+	};
+}
+
+function _deleteEventFailure(error) {
+	return {
+		type: CALENDAR.DELETE_EVENT_FAILURE,
+		payload: error
+	};
+}
+
+function _getEventsSuccess(events) {
+	return {
+		type: CALENDAR.GET_EVENTS_SUCCESS,
+		payload: events
+	};
+}
+
+function _getEventsFailure(error) {
+	return {
+		type: CALENDAR.GET_EVENTS_FAILURE,
+		payload: error
 	};
 }
 
@@ -67,7 +113,7 @@ function _addCalendarEvent() {
 
 		var req = constructRequest(state, 'calendar', POST, obj);
 
-		dispatch(_addingCalendarEvent())
+		dispatch(_addingCalendarEvent());
 
         var success = false;
 
@@ -76,6 +122,7 @@ function _addCalendarEvent() {
 	       .then(() => {
 	      	  success = true;
 	      	  dispatch(_addCalendarEventSuccess());
+  	      	  dispatch(_getCalendarEvents());
 	        })
 	       .catch(error => error.response ?
 	      		 (error.response.status === 400 ?  ERRORS.BAD_REQUEST : error.response.text()) 
@@ -85,10 +132,60 @@ function _addCalendarEvent() {
 	};
 }
 
+function _getCalendarEvents() {
+	return (dispatch, getState) => {
+		var state = getState();
+		var req = constructRequest(state, 'calendar');
+
+		dispatch(_gettingCalendarEvents());
+
+        var success = false;
+
+	    fetch(req)
+	   	   .then(checkOk)
+	   	   .then(parseBody)
+	       .then((body) => {
+	      	  success = true;
+	      	  dispatch(_getEventsSuccess(body));
+	        })
+	       .catch(error => error.response ?
+	      		 (error.response.status === 400 ?  ERRORS.BAD_REQUEST : error.response.text()) 
+	      		 :  ERRORS.SERVER_UNREACHABLE)
+		  .then( text  => success ? success :dispatch(_getEventsFailure(text)));
+	}
+}
+
+function _deleteCalendarEvent() {
+	return (dispatch, getState) => {
+		var state = getState();
+		var eventId = state.calendar.eventId;
+		var req = constructRequest(state, `calendar/${eventId}`, DELETE);
+
+		dispatch(_deletingEvent());
+
+        var success = false;
+
+	    fetch(req)
+	   	   .then(checkStatus)
+	       .then(() => {
+	      	  success = true;
+	      	  dispatch(_deleteEventSuccess());
+	      	  dispatch(_getCalendarEvents());
+	        })
+	       .catch(error => error.response ?
+	      		 (error.response.status === 400 ?  ERRORS.BAD_REQUEST : error.response.text()) 
+	      		 :  ERRORS.SERVER_UNREACHABLE)
+		  .then( text  => success ? success :dispatch(_deleteEventFailure(text)));
+	}
+}
+
 export default {
   addCalendarEvent: _addCalendarEvent,
   changeEventName: _changeEventName,
   changeEventDate: _changeEventDate,
   changeEventDescription: _changeEventDescription,
-  clearModalState: _clearModalState
+  clearModalState: _clearModalState,
+  getCalendarEvents: _getCalendarEvents,
+  setEvent: _setEvent,
+  deleteCalendarEvent: _deleteCalendarEvent
 };

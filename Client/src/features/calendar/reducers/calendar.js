@@ -1,12 +1,17 @@
 import {createReducer, updateState} from '../../../common/utils';
 import CALENDAR from '../constants/calendar';
 import moment from 'moment';
+import {normaliseEvents} from '../utils/calendar';
 
 const INITIAL_STATE = {
 	isEventAdded: false,
 	isAddingEvent: false,
 	isValidEvent: false,
+	isGettingEvents: false,
+	isDeletingEvent: false,
+	events: [],
 	name: '',
+	eventId: '',
 	startDate: {},
 	endDate: {},
 	description: '',
@@ -40,6 +45,37 @@ export default createReducer (INITIAL_STATE,  {
 		error:''
 	}),
 
+	[CALENDAR.GETTING_EVENTS]: state => updateState(state, {
+		isGettingEvents: true,
+		error:''
+	}),
+
+	[CALENDAR.GET_EVENTS_SUCCESS]: (state, events) => updateState(state, {
+		isGettingEvents: false,
+		events: normaliseEvents(events),
+		error: ''
+	}),
+
+	[CALENDAR.GET_EVENTS_FAILURE]: (state, error) => updateState(state, {
+		isGettingEvents: false,
+		error: error
+	}),
+
+	[CALENDAR.DELETING_EVENT]: state => updateState(state, {
+		isDeletingEvent: true,
+		error:''
+	}),
+
+	[CALENDAR.DELETE_EVENT_SUCCESS]: state => updateState(state, {
+		isDeletingEvent: false,
+		error: ''
+	}),
+
+	[CALENDAR.DELETE_EVENT_FAILURE]: (state, error) => updateState(state, {
+		isDeletingEvent: false,
+		error: error
+	}),
+
 	[CALENDAR.CHANGE_EVENT_NAME]: (state, name) => updateState(state, {
 		name: name,
 		isEventAdded: false,
@@ -56,6 +92,15 @@ export default createReducer (INITIAL_STATE,  {
 	[CALENDAR.CHANGE_EVENT_DESCRIPTION]: (state, desc) => updateState(state, {
 		description: desc,
 		isEventAdded: false,
+		error:''
+	}),
+
+	[CALENDAR.SET_EVENT]: (state, event) => updateState(state, {
+		name: event.title,
+		description: event.description,
+		startDate: _convertToValidDate(event.start),
+		endDate: _convertToValidDate(event.end),
+		eventId: event.id,
 		error:''
 	}),
 
